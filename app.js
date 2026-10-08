@@ -17,7 +17,7 @@ app.use(cors({
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.json({ sukses: true, pesan: 'API Buku berjalan. Gunakan /api/buku' });
+  res.json('Server Express.js berjalan!');
 });
 
 app.use('/buku', bukuRoutes);
