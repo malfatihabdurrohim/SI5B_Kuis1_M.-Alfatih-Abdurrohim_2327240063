@@ -7,17 +7,20 @@ const { notFound, errorHandler } = require('./middlewares/errorHandler');
 const bukuRoutes = require('./routes/bukuRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 app.use(logger);
-app.use(cors());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json({ sukses: true, pesan: 'API Buku berjalan. Gunakan /api/buku' });
 });
 
-app.use('/api/buku', bukuRoutes);
+app.use('/buku', bukuRoutes);
 
 app.use(notFound);      // harus setelah semua rute
 app.use(errorHandler);  // harus paling akhir
