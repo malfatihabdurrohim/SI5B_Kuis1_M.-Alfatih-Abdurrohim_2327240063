@@ -1,14 +1,18 @@
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');   // tambahkan di antara require lainnya
 
 const logger = require('./middlewares/logger');
-const { notFound, errorHandler } = require('./middlewares/errorHandler');
+const { notFoundHandler, errorHandler } = require('./middlewares/errorHandler');
+
 const bukuRoutes = require('./routes/bukuRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ---------- Middleware global ----------
 app.use(logger);
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
@@ -16,15 +20,28 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// ---------- Route dasar ----------
 app.get('/', (req, res) => {
-  res.json('Server Express.js berjalan!');
+  res.send('Server Express.js berjalan!');
 });
 
+// ---------- Route per modul ----------
 app.use('/buku', bukuRoutes);
 
-app.use(notFound);      // harus setelah semua rute
-app.use(errorHandler);  // harus paling akhir
+// ---------- Handler 404 dan error handler (paling bawah) ----------
+app.use(notFoundHandler);
+app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
-});
+//app.listen(PORT, () => {
+  //console.log(`Server berjalan di http://localhost:${PORT}`);
+//});
+
+mongoose.connect(process.env.DB_URI)
+  .then(() => {
+    console.log('Terhubung ke MongoDB');
+    app.listen(PORT, () => console.log(`Server berjalan di http://localhost:${PORT}`));
+  })
+  .catch((err) => {
+    console.error('Gagal terhubung:', err.message);
+    process.exit(1);
+  });
