@@ -5,7 +5,7 @@ require('dotenv').config({ quiet: true });
 const mongoose = require('mongoose');
 const Buku = require('./models/bukuModel');
 
-const judul = ['Andi', 'Budi', 'Citra', 'Dewi', 'Eko', 'Fitri', 'Gita', 'Hadi', 'Indra', 'Joko',
+const judul = ['sekolah', 'anak-anak', 'ilmu', 'Dewi', 'Eko', 'Fitri', 'Gita', 'Hadi', 'Indra', 'Joko',
   'Kiki', 'Lina', 'Maya', 'Nanda', 'Oka', 'Putri', 'Qori', 'Rina', 'Sari', 'Tono',
   'Umar', 'Vina', 'Wawan', 'Yuni', 'Zaki'];
 const KOTA = ['Palembang', 'Indralaya', 'Prabumulih', 'Lubuklinggau'];
