@@ -3,10 +3,9 @@
 // data lama dihapus dulu.
 require('dotenv').config({ quiet: true });
 const mongoose = require('mongoose');
-const Prodi = require('./models/prodiModel');
-const Mahasiswa = require('./models/mahasiswaModel');
+const Buku = require('./models/bukuModel');
 
-const NAMA = ['Andi', 'Budi', 'Citra', 'Dewi', 'Eko', 'Fitri', 'Gita', 'Hadi', 'Indra', 'Joko',
+const judul = ['Andi', 'Budi', 'Citra', 'Dewi', 'Eko', 'Fitri', 'Gita', 'Hadi', 'Indra', 'Joko',
   'Kiki', 'Lina', 'Maya', 'Nanda', 'Oka', 'Putri', 'Qori', 'Rina', 'Sari', 'Tono',
   'Umar', 'Vina', 'Wawan', 'Yuni', 'Zaki'];
 const KOTA = ['Palembang', 'Indralaya', 'Prabumulih', 'Lubuklinggau'];
@@ -22,8 +21,8 @@ async function main() {
     { kode: 'MI', nama: 'Manajemen Informatika' },
   ]);
 
-  const mahasiswa = NAMA.map((nama, i) => ({
-    nama,
+  const mahasiswa = judul.map((judul, i) => ({
+    judul,
     nim: String(2301001 + i),
     alamat: { jalan: `Jl. Contoh No. ${i + 1}`, kota: KOTA[i % KOTA.length] },
     prodiId: prodi[i % 3]._id, // SI, TI, MI bergantian
