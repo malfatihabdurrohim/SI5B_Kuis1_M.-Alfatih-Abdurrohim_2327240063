@@ -1,24 +1,26 @@
-// MIDDLEWARE: penanganan error terpusat
+function errorHttp(status, message) {
+  const err = new Error(message);
+  err.status = status;
+  return err;
+}
 
-// 404 untuk rute yang tidak ada
-const notFound = (req, res, next) => {
-  res.status(404).json({
-    sukses: false,
-    pesan: `Rute ${req.method} ${req.originalUrl} tidak ditemukan`,
-  });
-};
+function notFoundHandler(req, res) {
+  res.status(404).json({ message: `Rute ${req.method} ${req.originalUrl} tidak ditemukan` });
+}
 
-// Penangan error umum (termasuk JSON rusak)
-// eslint-disable-next-line no-unused-vars
-const errorHandler = (err, req, res, next) => {
+function errorHandler(err, req, res, next) {
   if (err.type === 'entity.parse.failed') {
-    return res.status(400).json({ sukses: false, pesan: 'Format JSON tidak valid' });
+    return res.status(400).json({ message: 'Format JSON tidak valid' });
   }
-  console.error(err);
-  res.status(err.status || 500).json({
-    sukses: false,
-    pesan: err.message || 'Terjadi kesalahan pada server',
-  });
-};
 
-module.exports = { notFound, errorHandler };
+  const status = err.status || 500;
+
+  if (status === 500) {
+    console.error(err.stack);
+    return res.status(500).json({ message: 'Terjadi kesalahan pada server' });
+  }
+
+  res.status(status).json({ message: err.message });
+}
+
+module.exports = { errorHttp, notFoundHandler, errorHandler };

@@ -5,31 +5,29 @@ require('dotenv').config({ quiet: true });
 const mongoose = require('mongoose');
 const Buku = require('./models/bukuModel');
 
-const judul = ['sekolah', 'anak-anak', 'ilmu', 'Dewi', 'Eko', 'Fitri', 'Gita', 'Hadi', 'Indra', 'Joko',
-  'Kiki', 'Lina', 'Maya', 'Nanda', 'Oka', 'Putri', 'Qori', 'Rina', 'Sari', 'Tono',
-  'Umar', 'Vina', 'Wawan', 'Yuni', 'Zaki'];
-const KOTA = ['Palembang', 'Indralaya', 'Prabumulih', 'Lubuklinggau'];
+const judul = ['sekolah', 'dogeng', 'hitungan', 'sejarah 1945'];
+const kota = ['Palembang', 'Indralaya', 'Prabumulih', 'Lubuklinggau'];
 
 async function main() {
   await mongoose.connect(process.env.DB_URI);
-  await Mahasiswa.deleteMany({});
-  await Prodi.deleteMany({});
+  await Buku.deleteMany({});
+  await Kategori.deleteMany({});
 
-  const prodi = await Prodi.insertMany([
+  const kategori = await Kategori.insertMany([
     { kode: 'SI', nama: 'Sistem Informasi' },
     { kode: 'TI', nama: 'Teknik Informatika' },
     { kode: 'MI', nama: 'Manajemen Informatika' },
   ]);
 
-  const mahasiswa = judul.map((judul, i) => ({
+  const buku = judul.map((judul, i) => ({
     judul,
-    nim: String(2301001 + i),
+    tahun: String(2000 + i),
     alamat: { jalan: `Jl. Contoh No. ${i + 1}`, kota: KOTA[i % KOTA.length] },
-    prodiId: prodi[i % 3]._id, // SI, TI, MI bergantian
+    kategoriId: kategori[i % 3]._id, // SI, TI, MI bergantian
   }));
-  await Mahasiswa.insertMany(mahasiswa);
+  await Buku.insertMany(buku);
 
-  console.log(`Seed selesai: ${prodi.length} prodi, ${mahasiswa.length} mahasiswa`);
+  console.log(`Seed selesai: ${prodi.length} prodi, ${buku.length} buku`);
   await mongoose.disconnect();
 }
 

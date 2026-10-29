@@ -1,13 +1,12 @@
-// ROUTE: memetakan alamat ke fungsi Controller
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/bukuController');
+const bukuController = require('../controllers/bukuController');
 const cekApiKey = require('../middlewares/cekApiKey');
 
-router.get('/', controller.getAll);
-router.get('/:id', controller.getById);
-router.post('/', cekApiKey, controller.create);
-router.put('/:id', cekApiKey, controller.update);
-router.delete('/:id', cekApiKey, controller.remove);
+router.get('/', bukuController.getAll);
+router.get('/:id', bukuController.getById);
+router.post('/', cekApiKey, bukuController.create);
+router.put('/:id', cekApiKey, bukuController.update);
+router.delete('/:id', cekApiKey, bukuController.remove);
 
 module.exports = router;

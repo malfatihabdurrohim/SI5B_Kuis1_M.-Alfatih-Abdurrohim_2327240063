@@ -5,14 +5,14 @@ const { errorHttp } = require('../middlewares/errorHandler');
 const LIMIT_DEFAULT = 10; 
 const LIMIT_MAKS = 50; 
 const FIELD_SORT = ['judul', 'penerbit', 'tahun', 'createdAt']; 
-const FIELD_BOLEH_DIPILIH = ['judul', 'penerbit', 'tahun', 'penulis', 'kategoriId', 'ulasan']; 
+const FIELD_BOLEH_DIPILIH = ['judul', 'penulis', 'penerbit', 'tahun', 'kategoriId', 'ulasan']; 
 
 // Mengubah bilangan dari query string menjadi bilangan bulat yang aman 
-function angkaAman(nilai, bawaan, min, maks) { 
-  const n = parseInt(nilai, 10); 
-  if (Number.isNaN(n)) return bawaan; 
-  return Math.min(Math.max(n, min), maks); 
-} 
+function angkaAman(nilai, bawaan, min, maks) {
+  const n = parseInt(nilai, 10);
+  if (Number.isNaN(n)) return bawaan;
+  return Math.min(Math.max(n, min), maks);
+}
 
 // [POST] Membuat data Buku baru
 exports.create = async (req, res, next) => { 
